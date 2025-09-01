@@ -129,6 +129,7 @@ export const ShowsScreen: React.FC = () => {
         }
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.listContainer}
+        style={styles.flatList}
       />
     </View>
   );
@@ -141,6 +142,9 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingVertical: 8,
+  },
+  flatList: {
+    flex: 1,
   },
   footer: {
     paddingVertical: 20,

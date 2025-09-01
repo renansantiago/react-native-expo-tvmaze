@@ -72,13 +72,15 @@ export const PeopleScreen: React.FC = () => {
       </View>
 
       <View style={styles.searchContainer}>
-        <SearchBar
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          placeholder="Search people..."
-          onClear={handleClearSearch}
-          showSearchIcon={false}
-        />
+        <View style={styles.searchBarContainer}>
+          <SearchBar
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            placeholder="Search people..."
+            onClear={handleClearSearch}
+            showSearchIcon={false}
+          />
+        </View>
         <TouchableOpacity
           style={[
             styles.searchButton,
@@ -113,6 +115,7 @@ export const PeopleScreen: React.FC = () => {
           }
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.listContainer}
+          style={styles.flatList}
                   ListEmptyComponent={
           activeSearchQuery.length > 0 && !isLoading ? (
               <View style={styles.noResultsContainer}>
@@ -146,6 +149,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
     gap: 8,
+  },
+  searchBarContainer: {
+    flex: 1,
   },
   searchButton: {
     backgroundColor: Colors.primary,
@@ -186,6 +192,9 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingVertical: 8,
+  },
+  flatList: {
+    flex: 1,
   },
   emptyContainer: {
     flex: 1,

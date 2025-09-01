@@ -46,7 +46,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    paddingHorizontal: 16,
     paddingVertical: 8,
   },
   searchContainer: {
