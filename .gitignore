@@ -37,3 +37,7 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
+
+# Since using Prebuild, we're ignoring android and ios folders completely
+android/
+ios/

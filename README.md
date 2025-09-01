@@ -91,6 +91,27 @@ The app uses the [TVMaze API](https://www.tvmaze.com/api) which provides:
 - Expo CLI
 - iOS Simulator or Android Emulator (optional)
 
+### Using Expo Go
+
+The easiest way to test the app is using **Expo Go**:
+
+1. **Install Expo Go** on your device:
+   - **iOS**: Download from the [App Store](https://apps.apple.com/app/expo-go/id982107779)
+   - **Android**: Download from [Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent)
+
+2. **Start the development server**:
+   ```bash
+   npm start
+   ```
+
+3. **Scan the QR code**:
+   - **iOS**: Use your camera app to scan the QR code
+   - **Android**: Use the Expo Go app to scan the QR code
+
+4. **The app will load** directly on your device!
+
+**Note**: Expo Go allows you to test the app on your physical device without building native code. Perfect for development and testing!
+
 ### Installation
 
 1. Clone the repository:
