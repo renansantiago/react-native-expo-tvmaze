@@ -146,6 +146,56 @@ npm run android
 npm run web
 ```
 
+## Testing
+
+This project includes comprehensive testing using Jest and React Native Testing Library. The testing setup covers:
+
+### Test Coverage
+
+- **Components**: UI components like `ShowCard`, `SearchBar`
+- **Hooks**: Custom React hooks like `useDebounce`
+- **Utilities**: Helper functions for date formatting, text manipulation
+- **Data Sources**: Local storage operations
+- **Use Cases**: Business logic testing
+
+### Running Tests
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm test -- --watch
+
+# Run tests with coverage
+npm test -- --coverage
+```
+
+### Testing Framework
+
+- **Jest**: JavaScript testing framework
+- **React Native Testing Library**: Utilities for testing React Native components
+- **TypeScript**: Full TypeScript support for tests
+- **Mocking**: Comprehensive mocking for React Native, Expo, and third-party libraries
+
+### Test Structure
+
+```
+src/
+├── __tests__/         # Test files
+│   ├── components/    # Component tests
+│   ├── hooks/         # Hook tests
+│   ├── utils/         # Utility tests
+│   └── datasources/   # Data source tests
+```
+
+### Test Configuration
+
+- `jest.config.basic.js`: Jest configuration for React Native
+- `jest.setup.basic.js`: Global test setup and mocks
+- TypeScript support with `ts-jest`
+- Babel transformation for React Native modules
+
 ## Project Structure
 
 ### Key Files

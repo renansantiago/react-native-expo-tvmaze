@@ -26,6 +26,7 @@ export const ShowCard: React.FC<ShowCardProps> = ({
       style={styles.container}
       onPress={onPress}
       activeOpacity={0.7}
+      testID="show-card"
     >
       <View style={styles.imageContainer}>
         <Image
@@ -39,6 +40,7 @@ export const ShowCard: React.FC<ShowCardProps> = ({
             style={styles.favoriteButton}
             onPress={() => onFavoritePress?.(isFavorite)}
             activeOpacity={0.8}
+            testID="favorite-button"
           >
             <Ionicons
               name={isFavorite ? "heart" : "heart-outline"}

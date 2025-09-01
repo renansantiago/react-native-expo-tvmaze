@@ -22,7 +22,13 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     <View style={styles.container}>
       <View style={styles.searchContainer}>
         {showSearchIcon && (
-          <Ionicons name="search" size={20} color={Colors.textSecondary} style={styles.searchIcon} />
+          <Ionicons 
+            name="search" 
+            size={20} 
+            color={Colors.textSecondary} 
+            style={styles.searchIcon}
+            testID="search-icon"
+          />
         )}
         <TextInput
           style={styles.input}
@@ -35,7 +41,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           autoCorrect={false}
         />
         {value.length > 0 && (
-          <TouchableOpacity onPress={onClear} style={styles.clearButton}>
+          <TouchableOpacity onPress={onClear} style={styles.clearButton} testID="clear-button">
             <Ionicons name="close-circle" size={20} color={Colors.textSecondary} />
           </TouchableOpacity>
         )}

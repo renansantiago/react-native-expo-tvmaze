@@ -1,4 +1,5 @@
 export const formatDate = (dateString: string): string => {
+  if (!dateString) return 'Invalid Date';
   const date = new Date(dateString);
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
@@ -8,6 +9,7 @@ export const formatDate = (dateString: string): string => {
 };
 
 export const formatTime = (timeString: string): string => {
+  if (!timeString) return '';
   const [hours, minutes] = timeString.split(':');
   const date = new Date();
   date.setHours(parseInt(hours), parseInt(minutes));
@@ -20,7 +22,8 @@ export const formatTime = (timeString: string): string => {
 };
 
 export const formatSchedule = (schedule: { time: string; days: string[] }): string => {
+  if (!schedule) return '';
   const time = formatTime(schedule.time);
   const days = schedule.days.join(', ');
-  return `${days} at ${time}`;
+  return days ? `${days} at ${time}` : `at ${time}`;
 };
