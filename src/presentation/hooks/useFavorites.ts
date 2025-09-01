@@ -28,6 +28,7 @@ export const useAddToFavorites = () => {
     mutationFn: (show: FavoriteShow) => addToFavoritesUseCase.execute(show),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['favorites'] });
+      queryClient.invalidateQueries({ queryKey: ['is-favorite'] });
     },
   });
 };
@@ -39,6 +40,7 @@ export const useRemoveFromFavorites = () => {
     mutationFn: (showId: number) => removeFromFavoritesUseCase.execute(showId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['favorites'] });
+      queryClient.invalidateQueries({ queryKey: ['is-favorite'] });
     },
   });
 };

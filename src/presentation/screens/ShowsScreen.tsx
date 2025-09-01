@@ -12,8 +12,9 @@ import { ShowCard } from '../components/ShowCard';
 import { SearchBar } from '../components/SearchBar';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { Colors } from '../../shared/constants/Colors';
-import { Show } from '../../shared/types';
+import { Show, FavoriteShow } from '../../shared/types';
 import { useRouter } from 'expo-router';
+import { useAddToFavorites, useRemoveFromFavorites } from '../hooks/useFavorites';
 
 export const ShowsScreen: React.FC = () => {
   const router = useRouter();
@@ -31,10 +32,28 @@ export const ShowsScreen: React.FC = () => {
     isRefetching,
   } = useInfiniteShows();
 
+  const addToFavorites = useAddToFavorites();
+  const removeFromFavorites = useRemoveFromFavorites();
+
   const allShows = data?.pages.flatMap(page => page.data) || [];
 
   const handleShowPress = (show: Show) => {
     router.push(`/show/${show.id}`);
+  };
+
+  const handleFavoritePress = (show: Show, isFavorite: boolean) => {
+    const favoriteShow: FavoriteShow = {
+      id: show.id,
+      name: show.name,
+      image: show.image?.medium || null,
+      addedAt: Date.now(),
+    };
+
+    if (isFavorite) {
+      removeFromFavorites.mutate(show.id);
+    } else {
+      addToFavorites.mutate(favoriteShow);
+    }
   };
 
   const handleLoadMore = () => {
@@ -47,6 +66,7 @@ export const ShowsScreen: React.FC = () => {
     <ShowCard
       show={item}
       onPress={() => handleShowPress(item)}
+      onFavoritePress={(isFavorite) => handleFavoritePress(item, isFavorite)}
     />
   );
 

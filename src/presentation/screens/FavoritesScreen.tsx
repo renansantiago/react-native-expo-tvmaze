@@ -53,8 +53,11 @@ export const FavoritesScreen: React.FC = () => {
         _links: { self: { href: '' }, previousepisode: null, nextepisode: null },
       }}
       onPress={() => handleShowPress(item)}
-      onFavoritePress={() => handleRemoveFavorite(item.id)}
-      isFavorite={true}
+      onFavoritePress={(isFavorite) => {
+        if (isFavorite) {
+          handleRemoveFavorite(item.id);
+        }
+      }}
     />
   );
 

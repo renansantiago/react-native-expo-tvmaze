@@ -5,6 +5,7 @@ A React Native Expo app for browsing TV series using the TVMaze API. Built with 
 ## Features
 
 ### Shows
+
 - **Browse TV Series**: View all TV series with pagination support
 - **Search Shows**: Search for TV series by name with real-time results
 - **Show Details**: View comprehensive information about each show including:
@@ -15,6 +16,7 @@ A React Native Expo app for browsing TV series using the TVMaze API. Built with 
   - Episodes organized by season
 
 ### Episodes
+
 - **Episode Details**: View detailed episode information including:
   - Episode name and number
   - Season information
@@ -23,12 +25,14 @@ A React Native Expo app for browsing TV series using the TVMaze API. Built with 
   - Episode image (if available)
 
 ### Favorites
+
 - **Save Favorites**: Add shows to your favorites list
 - **Remove Favorites**: Remove shows from your favorites
 - **Browse Favorites**: View all favorite shows in alphabetical order
 - **Quick Access**: Navigate directly to show details from favorites
 
 ### People
+
 - **Search People**: Search for actors, directors, and other TV professionals
 - **Person Details**: View comprehensive person information including:
   - Name and image
@@ -72,6 +76,7 @@ src/
 ## API
 
 The app uses the [TVMaze API](https://www.tvmaze.com/api) which provides:
+
 - Free, fast, and clean REST API
 - JSON responses
 - Comprehensive TV show and people data
@@ -89,22 +94,26 @@ The app uses the [TVMaze API](https://www.tvmaze.com/api) which provides:
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd react-native-expo-tvmaze
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Start the development server:
+
 ```bash
 npm start
 ```
 
 4. Run on your preferred platform:
+
 ```bash
 # iOS
 npm run ios
@@ -162,14 +171,6 @@ npm run web
 - Expo Router for file-based routing
 - Tab navigation for main sections
 - Stack navigation for detail screens
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
 
 ## License
 

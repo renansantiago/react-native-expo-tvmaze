@@ -5,12 +5,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { Show } from "../../shared/types";
 import { Colors } from "../../shared/constants/Colors";
 import { formatGenres } from "../../shared/utils/textUtils";
+import { useIsFavorite } from "../hooks/useFavorites";
 
 interface ShowCardProps {
   show: Show;
   onPress: () => void;
-  onFavoritePress?: () => void;
-  isFavorite?: boolean;
+  onFavoritePress?: (isFavorite: boolean) => void;
   showFavoriteButton?: boolean;
 }
 
@@ -18,9 +18,9 @@ export const ShowCard: React.FC<ShowCardProps> = ({
   show,
   onPress,
   onFavoritePress,
-  isFavorite = false,
   showFavoriteButton = true,
 }) => {
+  const { data: isFavorite = false } = useIsFavorite(show.id);
   return (
     <TouchableOpacity
       style={styles.container}
@@ -37,7 +37,7 @@ export const ShowCard: React.FC<ShowCardProps> = ({
         {showFavoriteButton && (
           <TouchableOpacity
             style={styles.favoriteButton}
-            onPress={onFavoritePress}
+            onPress={() => onFavoritePress?.(isFavorite)}
             activeOpacity={0.8}
           >
             <Ionicons

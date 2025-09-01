@@ -34,7 +34,7 @@ export const ShowDetailsScreen: React.FC = () => {
     enabled: !!showId,
   });
 
-  const { data: isFavorite } = useIsFavorite(showId);
+  const { data: isFavorite = false } = useIsFavorite(showId);
   const addToFavorites = useAddToFavorites();
   const removeFromFavorites = useRemoveFromFavorites();
 
