@@ -1,0 +1,129 @@
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  RefreshControl,
+  ActivityIndicator,
+} from 'react-native';
+import { useInfiniteShows } from '../hooks/useShows';
+import { ShowCard } from '../components/ShowCard';
+import { SearchBar } from '../components/SearchBar';
+import { LoadingSpinner } from '../components/LoadingSpinner';
+import { Colors } from '../../shared/constants/Colors';
+import { Show } from '../../shared/types';
+import { useRouter } from 'expo-router';
+
+export const ShowsScreen: React.FC = () => {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
+  
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+    error,
+    refetch,
+    isRefetching,
+  } = useInfiniteShows();
+
+  const allShows = data?.pages.flatMap(page => page.data) || [];
+
+  const handleShowPress = (show: Show) => {
+    router.push(`/show/${show.id}`);
+  };
+
+  const handleLoadMore = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  const renderShowItem = ({ item }: { item: Show }) => (
+    <ShowCard
+      show={item}
+      onPress={() => handleShowPress(item)}
+    />
+  );
+
+  const renderFooter = () => {
+    if (!isFetchingNextPage) return null;
+    return (
+      <View style={styles.footer}>
+        <ActivityIndicator size="small" color={Colors.primary} />
+      </View>
+    );
+  };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (isError) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>Error loading shows</Text>
+        <Text style={styles.errorSubtext}>{error?.message}</Text>
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <SearchBar
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+        placeholder="Search shows..."
+        onClear={() => setSearchQuery('')}
+      />
+      <FlatList
+        data={allShows}
+        renderItem={renderShowItem}
+        keyExtractor={(item) => item.id.toString()}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.1}
+        ListFooterComponent={renderFooter}
+        refreshControl={
+          <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+        }
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.listContainer}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.background,
+  },
+  listContainer: {
+    paddingVertical: 8,
+  },
+  footer: {
+    paddingVertical: 20,
+    alignItems: 'center',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  errorText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: Colors.error,
+    marginBottom: 8,
+  },
+  errorSubtext: {
+    fontSize: 14,
+    color: Colors.textSecondary,
+    textAlign: 'center',
+  },
+});
