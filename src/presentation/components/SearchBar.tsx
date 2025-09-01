@@ -8,6 +8,7 @@ interface SearchBarProps {
   onChangeText: (text: string) => void;
   placeholder?: string;
   onClear?: () => void;
+  showSearchIcon?: boolean;
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({
@@ -15,11 +16,14 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   onChangeText,
   placeholder = 'Search...',
   onClear,
+  showSearchIcon = true,
 }) => {
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color={Colors.textSecondary} style={styles.searchIcon} />
+        {showSearchIcon && (
+          <Ionicons name="search" size={20} color={Colors.textSecondary} style={styles.searchIcon} />
+        )}
         <TextInput
           style={styles.input}
           value={value}
@@ -42,9 +46,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 16,
+    flex: 1,
     paddingVertical: 8,
-    backgroundColor: Colors.background,
   },
   searchContainer: {
     flexDirection: 'row',

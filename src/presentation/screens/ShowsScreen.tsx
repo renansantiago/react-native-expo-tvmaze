@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   View,
   Text,
@@ -15,10 +15,12 @@ import { Colors } from '../../shared/constants/Colors';
 import { Show, FavoriteShow } from '../../shared/types';
 import { useRouter } from 'expo-router';
 import { useAddToFavorites, useRemoveFromFavorites } from '../hooks/useFavorites';
+import { useDebounce } from '../hooks/useDebounce';
 
 export const ShowsScreen: React.FC = () => {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
+  const debouncedSearchQuery = useDebounce(searchQuery, 300); // 300ms debounce
   
   const {
     data,
@@ -35,7 +37,22 @@ export const ShowsScreen: React.FC = () => {
   const addToFavorites = useAddToFavorites();
   const removeFromFavorites = useRemoveFromFavorites();
 
-  const allShows = data?.pages.flatMap(page => page.data) || [];
+  const allShows = useMemo(() => {
+    return data?.pages.flatMap(page => page.data) || [];
+  }, [data]);
+
+  // Filter shows based on debounced search query
+  const filteredShows = useMemo(() => {
+    if (!debouncedSearchQuery.trim()) {
+      return allShows;
+    }
+    
+    const query = debouncedSearchQuery.toLowerCase().trim();
+    return allShows.filter(show => 
+      show.name.toLowerCase().includes(query) ||
+      show.genres.some(genre => genre.toLowerCase().includes(query))
+    );
+  }, [allShows, debouncedSearchQuery]);
 
   const handleShowPress = (show: Show) => {
     router.push(`/show/${show.id}`);
@@ -101,7 +118,7 @@ export const ShowsScreen: React.FC = () => {
         onClear={() => setSearchQuery('')}
       />
       <FlatList
-        data={allShows}
+        data={filteredShows}
         renderItem={renderShowItem}
         keyExtractor={(item) => item.id.toString()}
         onEndReached={handleLoadMore}

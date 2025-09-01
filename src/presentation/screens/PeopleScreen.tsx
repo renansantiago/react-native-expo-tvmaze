@@ -5,6 +5,7 @@ import {
   FlatList,
   StyleSheet,
   RefreshControl,
+  TouchableOpacity,
 } from 'react-native';
 import { useSearchPeople } from '../hooks/usePeople';
 import { PersonCard } from '../components/PersonCard';
@@ -17,6 +18,7 @@ import { useRouter } from 'expo-router';
 export const PeopleScreen: React.FC = () => {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeSearchQuery, setActiveSearchQuery] = useState('');
   
   const {
     data: people,
@@ -25,10 +27,19 @@ export const PeopleScreen: React.FC = () => {
     error,
     refetch,
     isRefetching,
-  } = useSearchPeople(searchQuery);
+  } = useSearchPeople(activeSearchQuery);
 
   const handlePersonPress = (person: Person) => {
     router.push(`/person/${person.id}`);
+  };
+
+  const handleSearch = () => {
+    setActiveSearchQuery(searchQuery);
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    setActiveSearchQuery('');
   };
 
   const renderPersonItem = ({ item }: { item: Person }) => (
@@ -60,14 +71,33 @@ export const PeopleScreen: React.FC = () => {
         </Text>
       </View>
 
-      <SearchBar
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-        placeholder="Search people..."
-        onClear={() => setSearchQuery('')}
-      />
+      <View style={styles.searchContainer}>
+        <SearchBar
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          placeholder="Search people..."
+          onClear={handleClearSearch}
+          showSearchIcon={false}
+        />
+        <TouchableOpacity
+          style={[
+            styles.searchButton,
+            !searchQuery.trim() && styles.searchButtonDisabled
+          ]}
+          onPress={handleSearch}
+          disabled={!searchQuery.trim()}
+          activeOpacity={0.7}
+        >
+          <Text style={[
+            styles.searchButtonText,
+            !searchQuery.trim() && styles.searchButtonTextDisabled
+          ]}>
+            Search
+          </Text>
+        </TouchableOpacity>
+      </View>
 
-      {searchQuery.length === 0 ? (
+      {activeSearchQuery.length === 0 ? (
         <View style={styles.emptyContainer}>
           <Text style={styles.emptyText}>
             Enter a name to search for people
@@ -83,11 +113,11 @@ export const PeopleScreen: React.FC = () => {
           }
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.listContainer}
-          ListEmptyComponent={
-            searchQuery.length > 0 && !isLoading ? (
+                  ListEmptyComponent={
+          activeSearchQuery.length > 0 && !isLoading ? (
               <View style={styles.noResultsContainer}>
                 <Text style={styles.noResultsText}>
-                  No people found for &quot;{searchQuery}&quot;
+                  No people found for &quot;{activeSearchQuery}&quot;
                 </Text>
                 <Text style={styles.noResultsSubtext}>
                   Try a different search term
@@ -109,6 +139,40 @@ const styles = StyleSheet.create({
   header: {
     padding: 16,
     paddingTop: 20,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    gap: 8,
+  },
+  searchButton: {
+    backgroundColor: Colors.primary,
+    borderRadius: 12,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: Colors.cardShadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
+    minWidth: 80,
+  },
+  searchButtonDisabled: {
+    backgroundColor: Colors.border,
+    shadowOpacity: 0.1,
+    elevation: 1,
+  },
+  searchButtonText: {
+    color: Colors.surface,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  searchButtonTextDisabled: {
+    color: Colors.textSecondary,
   },
   title: {
     fontSize: 28,
